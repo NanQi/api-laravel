@@ -38,7 +38,7 @@ abstract class ApiTestCase extends TestCase
 
         $user = ($apiKey = Arr::get($credentials, 'api_key'))
             ? User::whereApiKey($apiKey)->firstOrFail()
-            : User::whereEmail(Arr::get($credentials, 'email'))->firstOrFail();
+            : User::whereEmail(Arr::get($credentials, 'login'))->firstOrFail();
 
         return $this->actingAs($user);
     }
@@ -50,7 +50,7 @@ abstract class ApiTestCase extends TestCase
      */
     public function actingAsAdmin()
     {
-        $user = User::where('email', UserStorySeeder::ADMIN_CREDENTIALS[0])->firstOrFail();
+        $user = User::where('login', UserStorySeeder::ADMIN_CREDENTIALS[0])->firstOrFail();
 
         return $this->actingAs($user);
     }

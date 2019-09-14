@@ -57,13 +57,13 @@ $api->version('v1', ['middleware' => ['api']], function ($api) {
         /*
          * Users
          */
-        $api->group(['prefix' => 'users', 'middleware' => 'check_role:admin'], function ($api) {
+        $api->group(['prefix' => 'users'], function ($api) {
             $api->get('/', 'App\Http\Controllers\UserController@getAll');
-            $api->get('/{uuid}', 'App\Http\Controllers\UserController@get');
+            $api->get('/{id}', 'App\Http\Controllers\UserController@get');
             $api->post('/', 'App\Http\Controllers\UserController@post');
-            $api->put('/{uuid}', 'App\Http\Controllers\UserController@put');
-            $api->patch('/{uuid}', 'App\Http\Controllers\UserController@patch');
-            $api->delete('/{uuid}', 'App\Http\Controllers\UserController@delete');
+            $api->put('/{id}', 'App\Http\Controllers\UserController@put');
+            $api->patch('/{id}', 'App\Http\Controllers\UserController@patch');
+            $api->delete('/{id}', 'App\Http\Controllers\UserController@delete');
         });
 
         /*

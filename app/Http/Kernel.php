@@ -66,7 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'snake_case' => \Specialtactics\L5Api\Http\Middleware\SnakeCaseInputParameterKeys::class,
-        'check_role' => \Specialtactics\L5Api\Http\Middleware\CheckUserRole::class,
     ];
 
     /**

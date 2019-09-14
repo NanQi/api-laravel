@@ -8,7 +8,7 @@ use App\Models\User;
 class UserTest extends ApiTestCase
 {
     public function testGetAll() {
-        $jsonResponse = $this->actingAsAdmin()->json('GET', '/users');
+        $jsonResponse = $this->actingAsAdmin()->json('GET', '/api/users');
 
         // Check status and structure
         $jsonResponse
@@ -19,7 +19,7 @@ class UserTest extends ApiTestCase
                         [
                             'id',
                             'name',
-                            'email',
+                            'login',
                         ],
                     ],
                 ]
@@ -29,7 +29,7 @@ class UserTest extends ApiTestCase
     public function testPost() {
         $testUser = factory(User::class)->make()->getAttributes();
 
-        $jsonResponse = $this->actingAsAdmin()->json('POST', '/users', $testUser);
+        $jsonResponse = $this->actingAsAdmin()->json('POST', '/api/users', $testUser);
 
         unset($testUser['password']);
 
@@ -41,7 +41,7 @@ class UserTest extends ApiTestCase
                     'data' =>
                         [
                             'name',
-                            'email',
+                            'login',
                             'id',
                         ]
                 ]

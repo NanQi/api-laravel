@@ -11,7 +11,6 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Hash;
-use App\Models\Role;
 
 class User extends BaseModel implements
     AuthenticatableContract,
@@ -22,14 +21,9 @@ class User extends BaseModel implements
     use Authenticatable, Authorizable, CanResetPassword, Notifiable;
 
     /**
-     * @var int Auto increments integer key
-     */
-    public $primaryKey = 'user_id';
-
-    /**
      * @var array Relations to load implicitly by Restful controllers
      */
-    public static $localWith = ['primaryRole', 'roles'];
+    public static $localWith = [];
 
     /**
      * The attributes that are mass assignable.
@@ -37,7 +31,7 @@ class User extends BaseModel implements
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'primary_role',
+        'name', 'login', 'password'
     ];
 
     /**
@@ -46,7 +40,7 @@ class User extends BaseModel implements
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'primary_role',
+        'password', 'remember_token'
     ];
 
     /**
@@ -72,55 +66,10 @@ class User extends BaseModel implements
     public function getValidationRules()
     {
         return [
-            'email' => 'email|max:255|unique:users',
             'name'  => 'required|min:3',
+            'login' => 'email|max:255|unique:users',
             'password' => 'required|min:6',
         ];
-    }
-
-    /**
-     * User's primary role
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
-     */
-    public function primaryRole()
-    {
-        return $this->belongsTo(Role::class, 'primary_role');
-    }
-
-    /**
-     * User's secondary roles
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');
-    }
-
-    /**
-     * Get all user's roles
-     */
-    public function getRoles()
-    {
-        $allRoles = array_merge(
-            [
-                $this->primaryRole->name,
-            ],
-            $this->roles->pluck('name')->toArray()
-        );
-
-        return $allRoles;
-    }
-
-    /**
-     * Is this user an admin?
-     *
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->primaryRole->name == Role::ROLE_ADMIN;
     }
 
     /**
@@ -146,7 +95,7 @@ class User extends BaseModel implements
             'user' => [
                 'id' => $this->getKey(),
                 'name' => $this->name,
-                'primaryRole' => $this->primaryRole->name,
+                'login' => $this->login
             ],
         ];
     }

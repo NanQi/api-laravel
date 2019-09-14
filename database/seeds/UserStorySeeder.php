@@ -12,36 +12,21 @@ class UserStorySeeder extends BaseSeeder
 
     public function runFake()
     {
-        // Grab all roles for reference
-        $roles = Role::all();
-
         // Create an admin user
         factory(App\Models\User::class)->create([
             'name'         => 'Admin',
-            'email'        => static::ADMIN_CREDENTIALS[0],
-            'primary_role' => $roles->where('name', 'admin')->first()->role_id,
+            'login'        => static::ADMIN_CREDENTIALS[0],
         ]);
 
         // Create regular user
         factory(App\Models\User::class)->create([
             'name'         => 'Bob',
-            'email'        => 'bob@bob.com',
-            'primary_role' => $roles->where('name', 'regular')->first()->role_id,
+            'login'        => 'bob@bob.com',
         ]);
-
-        // Get some random roles to assign to users
-        $fakeRolesToAssignCount = 3;
-        $fakeRolesToAssign = RoleTableSeeder::getRandomRoles($fakeRolesToAssignCount);
 
         // Assign fake roles to users
         for ($i = 0; $i < 5; ++$i) {
-            $user = factory(App\Models\User::class)->create([
-                'primary_role' => $roles->random()->role_id,
-            ]);
-
-            for ($j = 0; $j < count($fakeRolesToAssign); ++$j) {
-                $user->roles()->save($fakeRolesToAssign->shift());
-            }
+            factory(App\Models\User::class)->create([]);
         }
     }
 }

@@ -16,8 +16,6 @@ class BasePolicy extends RestfulModelPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+
     }
 }

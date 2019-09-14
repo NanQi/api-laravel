@@ -7,7 +7,7 @@ return [
     | Path to the stub files for the generator
     |--------------------------------------------------------------------------
     */
-    'path' => base_path('vendor/specialtactics/l5-api/resources/stubs'),
+    'path' => base_path('vendor/nanqi/l5-api/resources/stubs'),
 
     /*
     |--------------------------------------------------------------------------

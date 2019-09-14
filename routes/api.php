@@ -67,10 +67,15 @@ $api->version('v1', ['middleware' => ['api']], function ($api) {
         });
 
         /*
-         * Roles
+         * Articles
          */
-        $api->group(['prefix' => 'roles'], function ($api) {
-            $api->get('/', 'App\Http\Controllers\RoleController@getAll');
+        $api->group(['prefix' => 'articles'], function ($api) {
+            $api->get('/', 'App\Http\Controllers\ArticleController@getAll');
+            $api->get('/{id}', 'App\Http\Controllers\ArticleController@get');
+            $api->post('/', 'App\Http\Controllers\ArticleController@post');
+            $api->patch('/{id}', 'App\Http\Controllers\ArticleController@patch');
+            $api->delete('/{id}', 'App\Http\Controllers\ArticleController@delete');
         });
+
     });
 });

@@ -1,11 +1,12 @@
 <?php
 
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 
 class BaseSeeder extends Seeder
 {
     /**
-     * @var null Faker instance
+     * @var Generator
      */
     public $faker = null;
 
@@ -18,7 +19,7 @@ class BaseSeeder extends Seeder
     {
         // You can set the locale of your seeder as a parameter to the create function
         // Available locales: https://github.com/fzaninotto/Faker/tree/master/src/Faker/Provider
-        $this->faker = Faker\Factory::create();
+        $this->faker = Faker\Factory::create(config('app.faker_locale'));
 
         $this->before();
 

@@ -9,8 +9,10 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use NanQi\L5Api\Models\ModelEncryption;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Hash;
+
 
 class User extends BaseModel implements
     AuthenticatableContract,
@@ -18,7 +20,7 @@ class User extends BaseModel implements
     CanResetPasswordContract,
     JWTSubject
 {
-    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable, ModelEncryption;
 
     /**
      * @var array Relations to load implicitly by Restful controllers
@@ -31,7 +33,11 @@ class User extends BaseModel implements
      * @var array
      */
     protected $fillable = [
-        'name', 'login', 'password'
+        'name', 'phone', 'login', 'password'
+    ];
+
+    protected $encryptable = [
+        'phone',
     ];
 
     /**
@@ -44,18 +50,18 @@ class User extends BaseModel implements
     ];
 
     /**
-     * Model's boot function
+     * Automatically creates hash for the user password.
+     *
+     * @param  string  $value
+     * @return void
      */
-    public static function boot()
+    public function setPasswordAttribute($value)
     {
-        parent::boot();
+        if (Hash::needsRehash($value)) {
+            $value = Hash::make($value);
+        }
 
-        static::saving(function (self $user) {
-            // Hash user password, if not already hashed
-            if (Hash::needsRehash($user->password)) {
-                $user->password = Hash::make($user->password);
-            }
-        });
+        $this->attributes['password'] = $value;
     }
 
     /**

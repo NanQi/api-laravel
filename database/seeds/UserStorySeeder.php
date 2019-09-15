@@ -12,21 +12,11 @@ class UserStorySeeder extends BaseSeeder
 
     public function runFake()
     {
-        // Create an admin user
-        factory(App\Models\User::class)->create([
-            'name'         => 'Admin',
-            'login'        => static::ADMIN_CREDENTIALS[0],
-        ]);
-
-        // Create regular user
-        factory(App\Models\User::class)->create([
-            'name'         => 'Bob',
-            'login'        => 'bob@bob.com',
-        ]);
-
-        // Assign fake roles to users
-        for ($i = 0; $i < 5; ++$i) {
-            factory(App\Models\User::class)->create([]);
-        }
+        $user = new User();
+        $user->name = $this->faker->name;
+        $user->phone = $this->faker->phoneNumber;
+        $user->login = self::ADMIN_CREDENTIALS[0];
+        $user->password = self::ADMIN_CREDENTIALS[1];
+        $user->save();
     }
 }

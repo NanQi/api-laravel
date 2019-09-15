@@ -38,6 +38,9 @@ $api->version('v1', ['middleware' => ['api']], function ($api) {
         });
     });
 
+    $api->get('/test', 'App\Http\Controllers\UserController@test');
+
+
     /*
      * Authenticated routes
      */
@@ -69,13 +72,13 @@ $api->version('v1', ['middleware' => ['api']], function ($api) {
         /*
          * Articles
          */
-        $api->group(['prefix' => 'articles'], function ($api) {
-            $api->get('/', 'App\Http\Controllers\ArticleController@getAll');
-            $api->get('/{id}', 'App\Http\Controllers\ArticleController@get');
-            $api->post('/', 'App\Http\Controllers\ArticleController@post');
-            $api->patch('/{id}', 'App\Http\Controllers\ArticleController@patch');
-            $api->delete('/{id}', 'App\Http\Controllers\ArticleController@delete');
-        });
+//        $api->group(['prefix' => 'articles'], function ($api) {
+//            $api->get('/', 'App\Http\Controllers\ArticleController@getAll');
+//            $api->get('/{id}', 'App\Http\Controllers\ArticleController@get');
+//            $api->post('/', 'App\Http\Controllers\ArticleController@post');
+//            $api->patch('/{id}', 'App\Http\Controllers\ArticleController@patch');
+//            $api->delete('/{id}', 'App\Http\Controllers\ArticleController@delete');
+//        });
 
     });
 });

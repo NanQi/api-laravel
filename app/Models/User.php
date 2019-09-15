@@ -13,13 +13,56 @@ use NanQi\L5Api\Models\ModelEncryption;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Hash;
 
-
+/**
+ * Class User
+ *
+ * @author  NanQi
+ * @OA\Schema(
+ *     description="用户模型",
+ *     title="用户模型",
+ *     required={"login", "password"},
+ *     @OA\Xml(
+ *         name="Pet"
+ *     )
+ * )
+ */
 class User extends BaseModel implements
     AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract,
     JWTSubject
 {
+    /**
+     * @OA\Property(
+     *     format="int64",
+     *     description="ID",
+     *     title="ID",
+     * )
+     *
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @OA\Property(
+     *     description="登录名",
+     *     title="login",
+     * )
+     *
+     * @var string
+     */
+    private $login;
+
+    /**
+     * @OA\Property(
+     *     description="密码",
+     *     title="password",
+     * )
+     *
+     * @var string
+     */
+    private $password;
+
     use Authenticatable, Authorizable, CanResetPassword, Notifiable, ModelEncryption;
 
     /**
